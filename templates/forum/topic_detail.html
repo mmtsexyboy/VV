@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}{{ topic.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ topic.title }}</h2>
+<p>by <span class="post-author">{{ topic.author.username }}</span> on {{ topic.created_at|date:"F d, Y" }}</p>
+<hr>
+
+{% for post in topic.posts.all %}
+    <div class="post">
+        <p><strong class="post-author">{{ post.author.username }}</strong> <span class="post-timestamp">{{ post.created_at|timesince }} ago</span></p>
+        {% if post.author.profile.profile_pic %}
+            <img src="{{ post.author.profile.profile_pic.url }}" alt="Profile Pic" class="post-author-pic">
+        {% endif %}
+        <p>{{ post.content|linebreaksbr }}</p>
+        {% if post.author.profile.signature %}
+            <p class="post-signature">
+                {{ post.author.profile.signature }}
+            </p>
+        {% endif %}
+
+        {% if user == post.author %}
+            <div>
+                <a href="{% url 'edit_post' post.pk %}">Edit</a> |
+                <a href="{% url 'delete_post' post.pk %}" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<hr>
+<h3>Reply to this topic</h3>
+<form method="post" action="{% url 'create_post' topic.pk %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post Reply</button>
+</form>
+{% endblock %}
