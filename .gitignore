@@ -115,3 +115,20 @@ dmypy.json
 
 # pytype static analyzer
 .pytype/
+
+# Flutter & Android artifacts
+anki_app/.dart_tool/
+anki_app/.idea/
+anki_app/.vscode/
+anki_app/build/
+anki_app/android/.gradle/
+anki_app/android/app/build/
+anki_app/ios/
+anki_app/macos/
+anki_app/windows/
+anki_app/linux/
+anki_app/web/
+anki_app/*.iml
+anki_app/android/*.iml
+anki_app/ephemeral/
+*.apk
